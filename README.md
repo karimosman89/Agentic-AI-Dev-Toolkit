@@ -14,7 +14,7 @@ A toolkit to facilitate the development of agentic AI systems, incorporating fea
 
 1.  **Clone this repository:**
     ```bash
-    git clone https://github.com/YOUR_USERNAME/Agentic-AI-Dev-Toolkit.git
+    git clone https://github.com/karimosman89/Agentic-AI-Dev-Toolkit.git
     ```
 2.  **Navigate to the project directory:**
     ```bash
