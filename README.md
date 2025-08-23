@@ -513,7 +513,7 @@ python -m src.api.server --reload
 - **🎓 Educational Institutions**: AI system teaching platform
 
 ### **📧 Contact & Support**
-- **📧 Email**: [karimosman89@github.com](mailto:karimosman89@github.com)
+- **📧 Email**: [karim.programmer2020@gmail.com](mailto:karim.programmer2020@gmail.com)
 - **🔗 GitHub**: [https://github.com/karimosman89](https://github.com/karimosman89)
 - **💼 Project**: [Agentic-AI-Dev-Toolkit](https://github.com/karimosman89/Agentic-AI-Dev-Toolkit)
 - **📖 Documentation**: Full docs available in `/docs` directory
