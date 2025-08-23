@@ -12,11 +12,11 @@ License: MIT
 
 import os
 from typing import Optional, Dict, Any, List
-from pydantic import BaseSettings, Field, validator
-from pydantic_settings import BaseSettings as PydanticBaseSettings
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings
 
 
-class Settings(PydanticBaseSettings):
+class Settings(BaseSettings):
     """
     Application settings with environment variable support.
     
@@ -76,21 +76,24 @@ class Settings(PydanticBaseSettings):
     enable_file_operations: bool = Field(default=True, env="AGENTIC_ENABLE_FILE_OPS")
     enable_code_execution: bool = Field(default=False, env="AGENTIC_ENABLE_CODE_EXEC")
     
-    @validator("log_level")
+    @field_validator("log_level")
+    @classmethod
     def validate_log_level(cls, v):
         valid_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
         if v.upper() not in valid_levels:
             raise ValueError(f"Log level must be one of: {valid_levels}")
         return v.upper()
     
-    @validator("environment")
+    @field_validator("environment")
+    @classmethod
     def validate_environment(cls, v):
         valid_envs = ["development", "testing", "staging", "production"]
         if v.lower() not in valid_envs:
             raise ValueError(f"Environment must be one of: {valid_envs}")
         return v.lower()
     
-    @validator("api_port", "prometheus_port", "websocket_port")
+    @field_validator("api_port", "prometheus_port", "websocket_port")
+    @classmethod
     def validate_port(cls, v):
         if not (1024 <= v <= 65535):
             raise ValueError("Port must be between 1024 and 65535")
