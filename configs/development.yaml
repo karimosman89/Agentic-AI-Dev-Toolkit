@@ -1,0 +1,128 @@
+# Development Configuration for Agentic AI Development Toolkit
+
+# Server Settings
+server:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+  reload: true
+  workers: 1
+  log_level: "DEBUG"
+  
+# AI Provider Configuration
+ai_providers:
+  openai:
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "https://api.openai.com/v1"
+    timeout: 30
+    max_retries: 3
+    default_model: "gpt-4"
+    models:
+      - "gpt-4"
+      - "gpt-4-turbo"
+      - "gpt-3.5-turbo"
+    rate_limits:
+      requests_per_minute: 50
+      tokens_per_minute: 40000
+  
+  anthropic:
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "https://api.anthropic.com"
+    timeout: 30
+    max_retries: 3
+    default_model: "claude-3-sonnet-20240229"
+    models:
+      - "claude-3-opus-20240229"
+      - "claude-3-sonnet-20240229"
+      - "claude-3-haiku-20240307"
+    rate_limits:
+      requests_per_minute: 50
+      tokens_per_minute: 40000
+
+# Database Configuration
+database:
+  url: "sqlite:///./data/agentic_dev.db"
+  echo: true
+  pool_size: 5
+  max_overflow: 10
+  pool_timeout: 30
+  pool_recycle: 3600
+  
+# Security Configuration
+security:
+  secret_key: "${SECRET_KEY:-dev-secret-key-change-in-production}"
+  jwt_algorithm: "HS256"
+  access_token_expire_minutes: 30
+  refresh_token_expire_days: 7
+  password_hash_rounds: 12
+  
+# Tool Configuration
+tools:
+  auto_discover: true
+  discovery_paths:
+    - "src/tools"
+    - "src/tools/custom"
+  reload_on_change: true
+  execution_timeout: 60
+  max_concurrent_executions: 100
+  
+# Agent Configuration
+agents:
+  max_concurrent_agents: 50
+  default_timeout: 300
+  health_check_interval: 30
+  cleanup_inactive_after: 3600
+  
+  # Default agent settings
+  defaults:
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2000
+    timeout: 30
+    
+# Monitoring & Metrics
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  metrics_path: "/metrics"
+  
+  # Prometheus configuration
+  prometheus:
+    enabled: true
+    job_name: "agentic-ai-dev"
+    scrape_interval: 15
+    
+# Logging Configuration
+logging:
+  version: 1
+  disable_existing_loggers: false
+  
+  formatters:
+    standard:
+      format: "[%(asctime)s] %(levelname)s in %(name)s: %(message)s"
+      datefmt: "%Y-%m-%d %H:%M:%S"
+  
+  handlers:
+    console:
+      class: "logging.StreamHandler"
+      level: "DEBUG"
+      formatter: "standard"
+      stream: "ext://sys.stdout"
+    
+    file:
+      class: "logging.handlers.RotatingFileHandler"
+      level: "INFO"
+      formatter: "standard"
+      filename: "./logs/agentic_dev.log"
+      maxBytes: 10485760  # 10MB
+      backupCount: 5
+      
+  loggers:
+    "src":
+      level: "DEBUG"
+      handlers: ["console", "file"]
+      propagate: false
+  
+  root:
+    level: "INFO"
+    handlers: ["console", "file"]
